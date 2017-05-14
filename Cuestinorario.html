@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Cuestionario</title>
+	<script type="text/javascript" src="resources/js/angular.min.js"></script>
+	<script type="text/javascript" src="resources/js/cuestinario.js"></script>
+	<link  href="resources/css/estilo.css" rel="stylesheet" />
+</head>
+<body ng-app="cuestionario" ng-controller="ctrCuestinario">
+	<div class="preguntas">	
+		<div ng-repeat="preg in preguntas">
+			<div class="pregunta">
+				<p ng-class="
+				{
+					'estado-ok':preg.respuesta.id==preg.respuestaCorrecta ,
+					'estado-error':preg.respuesta.id!=preg.respuestaCorrecta
+				}"
+				ng-bind="preg.texto"
+				ng-show="lock"></p>
+				<p ng-bind="preg.texto" ng-show="!lock"></p>
+			</div>			
+			<div ng-repeat="res in preg.respuestas">				
+				<input type="radio" ng-model="preg.respuesta" ng-value="res" ng-disabled="lock"/>
+				<p ng-bind="res.text"></p>
+				
+			</div>			
+		</div>		
+		<center>
+			<button type="button" class="boton" ng-click="calcular()">Calcular</button>
+			<button type="button" class="boton" ng-click="reiniciar()">Reiniciar</button>
+		</center>
+	</div>
+	<div ng-class="{'estadoUsuario':true,'looser':correctas==0,'poor':correctas==2 || correctas==1,'guru':correctas==3}">
+		<p>Correctas <span ng-bind="correctas"></span> de <span ng-bind="preguntas.length"></span></p>		
+	</div>
+	
+</body>
+</html>
